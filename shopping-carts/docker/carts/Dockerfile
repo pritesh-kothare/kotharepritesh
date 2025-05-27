@@ -5,7 +5,7 @@ ARG SERVICE_USER=myuser
 ARG SERVICE_GROUP=mygroup
 
 # Create the user and group
-RUN addgroup -S $SERVICE_GROUP && adduser -S $SERVICE_USER -G $SERVICE_GROUP
+RUN addgroup -S $docker && adduser -S $jemnkins -G $docker
 
 # Set working directory
 WORKDIR /usr/src/app
