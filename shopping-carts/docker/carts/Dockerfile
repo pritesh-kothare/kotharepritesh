@@ -1,11 +1,11 @@
 # ✅ Use a multi-arch compatible Java image
 FROM eclipse-temurin:17-jre-alpine
 # Define user and group via build arguments
-ARG SERVICE_USER=myuser
-ARG SERVICE_GROUP=mygroup
+ARG SERVICE_USER=jenkins
+ARG SERVICE_GROUP=docker
 
 # Create the user and group
-RUN addgroup -S $docker && adduser -S $jemnkins -G $docker
+RUN addgroup -S $SERVICE_GROUP && adduser -S $SERVICE_USER -G $SERVICE_GROUP
 
 # Set working directory
 WORKDIR /usr/src/app
