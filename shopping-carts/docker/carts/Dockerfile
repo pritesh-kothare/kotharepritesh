@@ -1,11 +1,16 @@
-FROM weaveworksdemos/msd-java:jre-latest
+FROM eclipse-temurin:17-jre-alpine
+
+# Create user/group expected by the app
+ARG SERVICE_USER=myuser
+ARG SERVICE_GROUP=mygroup
+RUN addgroup -S $SERVICE_GROUP && adduser -S $SERVICE_USER -G $SERVICE_GROUP
 
 WORKDIR /usr/src/app
 COPY *.jar ./app.jar
 
-RUN	chown -R ${SERVICE_USER}:${SERVICE_GROUP} ./app.jar
+RUN chown -R $SERVICE_USER:$SERVICE_GROUP ./app.jar
 
-USER ${SERVICE_USER}
+USER $SERVICE_USER
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -21,4 +26,4 @@ LABEL org.label-schema.vendor="Weaveworks" \
   org.label-schema.vcs-ref="${COMMIT}" \
   org.label-schema.schema-version="1.0"
 
-ENTRYPOINT ["/usr/local/bin/java.sh","-jar","./app.jar", "--port=80"]
+ENTRYPOINT ["java", "-jar", "./app.jar", "--port=80"]
