@@ -6,7 +6,7 @@ ARG SERVICE_USER=jenkins
 ARG SERVICE_GROUP=docker
 
 # Create the user and group
-RUN addgroup -S $SERVICE_GROUP && adduser -S $SERVICE_USER -G $SERVICE_GROUP
+RUN groupadd --system $SERVICE_GROUP && useradd --system --no-create-home --gid $SERVICE_GROUP $SERVICE_USER
 
 # Set working directory
 WORKDIR /usr/src/app
