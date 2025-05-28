@@ -1,27 +1,31 @@
 # Use a stable, multi-arch compatible Java runtime image
 FROM eclipse-temurin:17-jre-jammy
 
+# Define build-time arguments for flexibility
 ARG SERVICE_USER=jenkins
 ARG SERVICE_GROUP=docker
-
-RUN groupadd --system $SERVICE_GROUP && \
-    useradd --system --no-create-home --gid $SERVICE_GROUP $SERVICE_USER
-
-WORKDIR /usr/src/app
-
 ARG JAR_FILE=target/cart-service-1.0.0.jar
-
-# CORRECT: Copy from the `target/` directory
-COPY ${JAR_FILE} ./app.jar
-
-RUN chown $SERVICE_USER:$SERVICE_GROUP ./app.jar
-
-USER $SERVICE_USER
-
 ARG BUILD_DATE
 ARG BUILD_VERSION
 ARG COMMIT
 
+# Create group and user for running the service
+RUN groupadd --system $SERVICE_GROUP && \
+    useradd --system --no-create-home --gid $SERVICE_GROUP $SERVICE_USER
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy the built JAR from the build context
+COPY ${JAR_FILE} ./app.jar
+
+# Adjust permissions
+RUN chown $SERVICE_USER:$SERVICE_GROUP ./app.jar
+
+# Switch to non-root user
+USER $SERVICE_USER
+
+# Add metadata as labels
 LABEL org.label-schema.vendor="Weaveworks" \
       org.label-schema.build-date="${BUILD_DATE}" \
       org.label-schema.version="${BUILD_VERSION}" \
@@ -32,4 +36,5 @@ LABEL org.label-schema.vendor="Weaveworks" \
       org.label-schema.vcs-ref="${COMMIT}" \
       org.label-schema.schema-version="1.0"
 
+# Run the JAR with a default port
 ENTRYPOINT ["java", "-jar", "./app.jar", "--port=80"]
