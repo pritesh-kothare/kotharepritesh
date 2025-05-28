@@ -1,5 +1,5 @@
 # ✅ Use a multi-arch compatible Java image
-FROM eclipse-temurin:17-jre-jammy  # ✅ FIXED: use jammy instead of alpine
+FROM eclipse-temurin:17-jre-jammy
 
 # Define user and group via build arguments
 ARG SERVICE_USER=jenkins
