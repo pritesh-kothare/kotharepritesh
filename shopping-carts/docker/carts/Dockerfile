@@ -16,7 +16,7 @@ WORKDIR /usr/src/app
 ARG JAR_FILE=app.jar
 
 # Copy the JAR file into the image
-COPY ${JAR_FILE} ./app.jar
+COPY cart-service-1.0.0.jar ./app.jar
 
 # Set correct ownership for the application file
 RUN chown $SERVICE_USER:$SERVICE_GROUP ./app.jar
