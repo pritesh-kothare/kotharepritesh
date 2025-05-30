@@ -14,7 +14,7 @@ RUN groupadd --system $SERVICE_GROUP && \
     useradd --system --no-create-home --gid $SERVICE_GROUP $SERVICE_USER
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /kotharepritesh/shopping-carts
 
 # Copy the built JAR from the build context
 COPY ${JAR_FILE} ./app.jar
