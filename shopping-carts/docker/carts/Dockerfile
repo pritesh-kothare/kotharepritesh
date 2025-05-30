@@ -4,7 +4,7 @@ FROM eclipse-temurin:17-jre-jammy
 # Define build-time arguments for flexibility
 ARG SERVICE_USER=jenkins
 ARG SERVICE_GROUP=docker
-ARG JAR_FILE=target/cart.jar
+ARG JAR_FILE=target/carts.jar
 ARG BUILD_DATE
 ARG BUILD_VERSION
 ARG COMMIT
